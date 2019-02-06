@@ -40,12 +40,21 @@ class ViewController: UIViewController {
     }
     
     private func initSubViews() {
-        slideView.frame = collapsedFrame()
         self.view.addSubview(slideView)
+        slideView.layer.cornerRadius = 10
+        slideView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        slideView.layer.masksToBounds = true
+        slideView.frame = collapsedFrame()
         
+        normalView.layer.cornerRadius = 10
+        normalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        normalView.layer.masksToBounds = true
         normalView.frame = CGRect(x: 0, y: 0,
                                   width: self.view.frame.width,
-                                  height: 60)
+                                  height: 80)
+        selectedView.layer.cornerRadius = 10
+        selectedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        selectedView.layer.masksToBounds = true
         selectedView.frame = CGRect(x: 0, y: 0,
                                     width: self.view.frame.width,
                                     height: 60)
