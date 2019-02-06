@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ExpandedView: UIView {
+class SelectedExView: UIView {
 
     // コードから初期化
     override init(frame: CGRect) {
@@ -23,7 +23,7 @@ class ExpandedView: UIView {
     }
     
     func loadNib(){
-        let view = Bundle.main.loadNibNamed("ExpandedView", owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed("SelectedExView", owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
         self.addSubview(view)
     }
