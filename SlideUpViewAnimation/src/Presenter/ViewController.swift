@@ -22,10 +22,11 @@ class ViewController: UIViewController {
 
     // Constant
     let slideView_normal_Height: CGFloat = 80.0
-    let slideView_selected_Height: CGFloat = 300.0
+    let slideView_selected_Height: CGFloat = 400.0
     let animatorDuration: TimeInterval = 1
     // UI
     var slideView = UIView()
+    var contentsScrollView = UIScrollView()
     var normalView = NormalView()
     var selectedHeaderView = SelectedHeaderView()
     var selectedContentsView = SelectedContentsView()
@@ -53,24 +54,36 @@ class ViewController: UIViewController {
         slideView.layer.masksToBounds = true
         slideView.frame = collapsedFrame()
         self.view.addSubview(slideView)
+    
         // SlideViewの子要素を初期化
         normalView.layer.cornerRadius = 10
         normalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         normalView.layer.masksToBounds = true
-        normalView.frame = CGRect(x: 0, y: 0,
+        normalView.frame = CGRect(x: 0,
+                                  y: 0,
                                   width: self.view.frame.width,
-                                  height: 80)
+                                  height: slideView_normal_Height)
         
         selectedHeaderView.layer.cornerRadius = 10
         selectedHeaderView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         selectedHeaderView.layer.masksToBounds = true
-        selectedHeaderView.frame = CGRect(x: 0, y: 0,
-                                    width: self.view.frame.width,
-                                    height: 80)
-        
-        selectedContentsView.frame = CGRect(x: 0, y: 80,
-                                      width: self.view.frame.width,
-                                      height: 200)
+        selectedHeaderView.frame = CGRect(x: 0,
+                                          y: 0,
+                                          width: self.view.frame.width,
+                                          height: slideView_normal_Height)
+        // .expanded のContents部分を表示させるためのスクロールビューを定義
+        contentsScrollView.bounces = false
+        contentsScrollView.isScrollEnabled = true
+        contentsScrollView.contentSize = CGSize(width: self.view.frame.width,
+                                                height: 380)
+        contentsScrollView.frame = CGRect(x: 0,
+                                          y: selectedHeaderView.frame.maxY,
+                                          width: self.view.frame.width,
+                                          height: slideView_selected_Height - slideView_normal_Height)
+        selectedContentsView.frame = CGRect(x: 0,
+                                            y: 0,
+                                            width: self.view.frame.width,
+                                            height: 500)
         slideView.addSubview(normalView)
     }
     
@@ -170,7 +183,8 @@ class ViewController: UIViewController {
         case .expanded:
             slideView.frame = expandedFrame()
             slideView.addSubview(selectedHeaderView)
-            slideView.addSubview(selectedContentsView)
+            slideView.addSubview(contentsScrollView)
+            contentsScrollView.addSubview(selectedContentsView)
         }
     }
     
