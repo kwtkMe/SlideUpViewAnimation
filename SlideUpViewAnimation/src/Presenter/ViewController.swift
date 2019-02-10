@@ -8,9 +8,14 @@
 
 import UIKit
 
-enum State {
+enum SlideViewState {
     case normal
     case selected
+}
+
+enum SelectedViewState {
+    case collapased
+    case expanded
 }
 
 class ViewController: UIViewController {
@@ -19,15 +24,15 @@ class ViewController: UIViewController {
     let slideView_normal_Height: CGFloat = 100.0
     let slideView_selected_Height: CGFloat = 500.0
     let animatorDuration: TimeInterval = 1
-    
     // UI
     var slideView = UIView()
     var normalView = NormalView()
     var selectedView = SelectedView()
     var selectedExView = SelectedExView()
-    
+    @IBOutlet weak var changeStateButton: UIButton!
     // Tracks all running aninmators
-    var state: State = .normal
+    var State_SlideView: SlideViewState = .normal
+    var State_SelectedView: SelectedViewState = .collapased
     var progressWhenInterrupted: CGFloat = 0
     var runningAnimators = [UIViewPropertyAnimator]()
     
@@ -40,29 +45,32 @@ class ViewController: UIViewController {
     }
     
     private func initSubViews() {
-        self.view.addSubview(slideView)
+        // StateButton の初期設定
+        
+        // SlideViewを初期化
         slideView.layer.cornerRadius = 10
         slideView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         slideView.layer.masksToBounds = true
         slideView.frame = collapsedFrame()
-        
+        self.view.addSubview(slideView)
+        // SlideViewの子要素を初期化
         normalView.layer.cornerRadius = 10
         normalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         normalView.layer.masksToBounds = true
         normalView.frame = CGRect(x: 0, y: 0,
                                   width: self.view.frame.width,
-                                  height: 80)
+                                  height: 100)
+        
         selectedView.layer.cornerRadius = 10
         selectedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         selectedView.layer.masksToBounds = true
         selectedView.frame = CGRect(x: 0, y: 0,
                                     width: self.view.frame.width,
-                                    height: 60)
+                                    height: 100)
+        
         selectedExView.frame = CGRect(x: 0, y: 60,
                                       width: self.view.frame.width,
                                       height: 500)
-        
-        addNormalView()
     }
     
     private func addGestures() {
@@ -90,17 +98,8 @@ class ViewController: UIViewController {
         )
     }
     
-    private func addNormalView() {
-        slideView.addSubview(normalView)
-    }
-    
-    private func addSelectedView() {
-        slideView.addSubview(selectedView)
-        slideView.addSubview(selectedExView)
-    }
-    
-    private func nextState() -> State {
-        switch self.state {
+    private func changeSlideViewState() -> SlideViewState {
+        switch self.State_SlideView {
         case .normal:
             return .selected
         case .selected:
@@ -108,13 +107,22 @@ class ViewController: UIViewController {
         }
     }
     
-    private func addFrameAnimator(state: State, duration: TimeInterval) {
+    private func changeSelectedViewState() -> SelectedViewState {
+        switch State_SelectedView {
+        case .collapased:
+            return .expanded
+        case .expanded:
+            return .collapased
+        }
+    }
+    
+    private func addFrameAnimator(state: SelectedViewState, duration: TimeInterval) {
         let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
             switch state {
-            case .normal:
-                self.slideView.frame = self.expandedFrame()
-            case .selected:
+            case .collapased:
                 self.slideView.frame = self.collapsedFrame()
+            case .expanded:
+                self.slideView.frame = self.expandedFrame()
             }
         }
         frameAnimator.addCompletion({ (position) in
@@ -122,7 +130,7 @@ class ViewController: UIViewController {
             case .start:
                 break
             case .end:
-                self.state = self.nextState()
+                self.State_SelectedView = self.changeSelectedViewState()
             default:
                 break
             }
@@ -131,10 +139,10 @@ class ViewController: UIViewController {
         runningAnimators.append(frameAnimator)
     }
     
-    func animateTransitionIfNeeded(state: State, duration: TimeInterval) {
+    func animateTransitionIfNeeded(state: SelectedViewState, duration: TimeInterval) {
         if runningAnimators.isEmpty {
             self.addFrameAnimator(state: state, duration: duration)
-            //self.addKeyFrameAnimator(state: state, duration: duration)
+
         }
     }
     
@@ -148,15 +156,20 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tapButton(_ sender: UIButton) {
-        self.state = nextState()
+        self.State_SelectedView = changeSelectedViewState()
         
-        switch self.state {
-        case .normal:
+        for subview in slideView.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        switch self.State_SelectedView {
+        case .collapased:
             slideView.frame = collapsedFrame()
-            addNormalView()
-        case .selected:
+            slideView.addSubview(selectedView)
+        case .expanded:
             slideView.frame = expandedFrame()
-            addSelectedView()
+            slideView.addSubview(selectedView)
+            slideView.addSubview(selectedExView)
         }
     }
     

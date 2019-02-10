@@ -4,31 +4,32 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NormalView" customModule="iMachiLive" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NormalView" customModule="SlideUpViewAnimation" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="dkt-dN-rG4">
+        <view contentMode="scaleToFill" id="pbf-xV-LZZ">
             <rect key="frame" x="0.0" y="0.0" width="365" height="71"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <searchBar contentMode="redraw" barStyle="black" placeholder="地名を検索" translatesAutoresizingMaskIntoConstraints="NO" id="jJd-6d-BlV">
+                <searchBar contentMode="redraw" barStyle="black" placeholder="地名を検索" translatesAutoresizingMaskIntoConstraints="NO" id="Jaj-7f-F6p">
                     <rect key="frame" x="0.0" y="0.0" width="365" height="71"/>
                     <color key="barTintColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
             </subviews>
             <constraints>
-                <constraint firstItem="jJd-6d-BlV" firstAttribute="leading" secondItem="dkt-dN-rG4" secondAttribute="leading" id="N6B-SI-gkl"/>
-                <constraint firstItem="jJd-6d-BlV" firstAttribute="top" secondItem="dkt-dN-rG4" secondAttribute="top" id="f54-AN-5gS"/>
-                <constraint firstAttribute="trailing" secondItem="jJd-6d-BlV" secondAttribute="trailing" id="pZe-cK-sSm"/>
-                <constraint firstAttribute="bottom" secondItem="jJd-6d-BlV" secondAttribute="bottom" id="prU-2g-GKp"/>
+                <constraint firstAttribute="bottom" secondItem="Jaj-7f-F6p" secondAttribute="bottom" id="DUu-67-Uyd"/>
+                <constraint firstItem="Jaj-7f-F6p" firstAttribute="top" secondItem="pbf-xV-LZZ" secondAttribute="top" id="GQ7-y5-WGV"/>
+                <constraint firstItem="Jaj-7f-F6p" firstAttribute="leading" secondItem="pbf-xV-LZZ" secondAttribute="leading" id="kJS-RH-kvG"/>
+                <constraint firstAttribute="trailing" secondItem="Jaj-7f-F6p" secondAttribute="trailing" id="u2K-mb-7Ur"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="xqp-no-FTE"/>
+            <viewLayoutGuide key="safeArea" id="Q2O-2Q-VKm"/>
             <point key="canvasLocation" x="639.20000000000005" y="-115.59220389805098"/>
         </view>
     </objects>
