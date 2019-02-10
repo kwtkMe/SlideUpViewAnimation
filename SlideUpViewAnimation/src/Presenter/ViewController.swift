@@ -21,14 +21,14 @@ enum SelectedViewState {
 class ViewController: UIViewController {
 
     // Constant
-    let slideView_normal_Height: CGFloat = 100.0
-    let slideView_selected_Height: CGFloat = 500.0
+    let slideView_normal_Height: CGFloat = 80.0
+    let slideView_selected_Height: CGFloat = 300.0
     let animatorDuration: TimeInterval = 1
     // UI
     var slideView = UIView()
     var normalView = NormalView()
-    var selectedView = SelectedView()
-    var selectedExView = SelectedExView()
+    var selectedHeaderView = SelectedHeaderView()
+    var selectedContentsView = SelectedContentsView()
     @IBOutlet weak var changeStateButton: UIButton!
     // Tracks all running aninmators
     var State_SlideView: SlideViewState = .normal
@@ -59,18 +59,19 @@ class ViewController: UIViewController {
         normalView.layer.masksToBounds = true
         normalView.frame = CGRect(x: 0, y: 0,
                                   width: self.view.frame.width,
-                                  height: 100)
+                                  height: 80)
         
-        selectedView.layer.cornerRadius = 10
-        selectedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        selectedView.layer.masksToBounds = true
-        selectedView.frame = CGRect(x: 0, y: 0,
+        selectedHeaderView.layer.cornerRadius = 10
+        selectedHeaderView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        selectedHeaderView.layer.masksToBounds = true
+        selectedHeaderView.frame = CGRect(x: 0, y: 0,
                                     width: self.view.frame.width,
-                                    height: 100)
+                                    height: 80)
         
-        selectedExView.frame = CGRect(x: 0, y: 60,
+        selectedContentsView.frame = CGRect(x: 0, y: 80,
                                       width: self.view.frame.width,
-                                      height: 500)
+                                      height: 200)
+        slideView.addSubview(normalView)
     }
     
     private func addGestures() {
@@ -165,11 +166,11 @@ class ViewController: UIViewController {
         switch self.State_SelectedView {
         case .collapased:
             slideView.frame = collapsedFrame()
-            slideView.addSubview(selectedView)
+            slideView.addSubview(selectedHeaderView)
         case .expanded:
             slideView.frame = expandedFrame()
-            slideView.addSubview(selectedView)
-            slideView.addSubview(selectedExView)
+            slideView.addSubview(selectedHeaderView)
+            slideView.addSubview(selectedContentsView)
         }
     }
     

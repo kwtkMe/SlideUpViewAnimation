@@ -1,5 +1,5 @@
 //
-//  SelectedView.swift
+//  ExpandedView.swift
 //  SlideUpViewAnimation
 //
 //  Created by RIVER on 2019/02/05.
@@ -8,11 +8,8 @@
 
 import UIKit
 
-class SelectedView: UIView {
+class SelectedContentsView: UIView {
 
-    @IBOutlet weak var localnameLabel: UILabel!
-    
-    
     // コードから初期化
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,7 +23,7 @@ class SelectedView: UIView {
     }
     
     func loadNib(){
-        let view = Bundle.main.loadNibNamed("SelectedView", owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed("SelectedContentsView", owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
         self.addSubview(view)
     }
